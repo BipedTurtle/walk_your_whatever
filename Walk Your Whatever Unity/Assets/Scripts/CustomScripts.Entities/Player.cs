@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using CustomScripts.Fundamentals;
+using CustomScripts.Managers;
 
 namespace CustomScripts.Entities
 {
@@ -29,6 +31,8 @@ namespace CustomScripts.Entities
 
         private void Start()
         {
+            UpdateManager.Instance.GlobalLateUpdate += this.Move;
+
             this.GetLeash();
         }
 
@@ -36,6 +40,13 @@ namespace CustomScripts.Entities
         {
             var leash = Instantiate(this.leashPrefab, this.Position, Quaternion.identity);
             leash.transform.SetParent(this.transform);
+        }
+
+        private void Move()
+        {
+            var pullFactor = .01f;
+            var movement = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
+            transform.position += movement;
         }
     }
 }

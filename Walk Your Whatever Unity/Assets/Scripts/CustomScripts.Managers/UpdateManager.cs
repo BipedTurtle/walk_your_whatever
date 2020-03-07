@@ -23,6 +23,7 @@ namespace CustomScripts.Managers
 
         public event Action GlobalUpdate;
         public event Action GlobalFixedUpdate;
+        public event Action GlobalLateUpdate;
 
         private void Update()
         {
@@ -32,6 +33,11 @@ namespace CustomScripts.Managers
         private void FixedUpdate()
         {
             this.GlobalFixedUpdate?.Invoke();
+        }
+
+        private void LateUpdate()
+        {
+            this.GlobalLateUpdate?.Invoke();
         }
     }
 }
