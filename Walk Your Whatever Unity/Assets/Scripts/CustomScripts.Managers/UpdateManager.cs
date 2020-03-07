@@ -31,7 +31,7 @@ namespace CustomScripts.Managers
 
         private void FixedUpdate()
         {
-            this.GlobalFixedUpdate.Invoke();
+            this.GlobalFixedUpdate?.Invoke();
         }
     }
 }

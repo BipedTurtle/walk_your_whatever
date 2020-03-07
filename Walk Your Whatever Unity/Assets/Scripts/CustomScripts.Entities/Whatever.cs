@@ -23,6 +23,6 @@ namespace CustomScripts.Entities
         }
         #endregion
 
-
+        public Vector3 Position { get => transform.position; }
     }
 }

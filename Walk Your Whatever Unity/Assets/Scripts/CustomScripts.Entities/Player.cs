@@ -23,6 +23,19 @@ namespace CustomScripts.Entities
         }
         #endregion
 
+        public Vector3 Position { get => transform.position; }
 
+        [SerializeField] private Leash leashPrefab;
+
+        private void Start()
+        {
+            this.GetLeash();
+        }
+
+        private void GetLeash()
+        {
+            var leash = Instantiate(this.leashPrefab, this.Position, Quaternion.identity);
+            leash.transform.SetParent(this.transform);
+        }
     }
 }
