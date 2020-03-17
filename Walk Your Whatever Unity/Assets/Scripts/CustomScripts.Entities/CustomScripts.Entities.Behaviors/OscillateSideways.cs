@@ -10,6 +10,7 @@ namespace CustomScripts.Entities.Behaviors
 {
     public class OscillateSideways : IMovementBehavior
     {
+        // increasing the number of steps increases the amplitude of a Whatever
         private int stepsPerHalfOscillation = 30;
         private int stepsUntilTurn;
 
@@ -18,12 +19,12 @@ namespace CustomScripts.Entities.Behaviors
             this.stepsUntilTurn = this.stepsPerHalfOscillation / 2;
         }
 
-        private float amplitude = 5f;
+        private float stepSpeed = 5f;
         private float direction = 1f;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehavior()
         {
             var unitMovement = Vector3.right;
-            var stepSize = this.amplitude * Time.fixedDeltaTime;
+            var stepSize = this.stepSpeed * Time.fixedDeltaTime;
             var movement = this.direction * unitMovement * stepSize;
 
             this.ChangeDirIfNecessary();
