@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using CustomScripts.Fundamentals;
 using CustomScripts.Managers;
+using CustomScripts.Entities.Behaviors;
 
 namespace CustomScripts.Entities
 {
@@ -14,18 +11,33 @@ namespace CustomScripts.Entities
         protected override void Awake()
         {
             base.Awake();
+
+            this.movementBehavior = new OscillateSideways();
+            this.totalMovement = new Movement();
         }
+
 
         private void Start()
         {
-            UpdateManager.Instance.GlobalFixedUpdate += this.Move;   
+            UpdateManager.Instance.GlobalFixedUpdate += this.AddMovementInherent;
+            UpdateManager.Instance.GlobalFixedUpdate += this.Walk;
         }
 
-        Func<float, float> movementFunc = (t) => 2 * Mathf.Sin(t);
-        private void Move()
+
+        private void Walk() => this.totalMovement.Move(transform);
+
+
+        private IMovementBehavior movementBehavior;
+        private Movement totalMovement;
+        private void AddMovementInherent() 
         {
-            var speed = 3f;
-            transform.position = transform.position.Set(x: this.movementFunc(Time.time * speed));
+            var behavior = this.movementBehavior.GetBehavior();
+
+            this.movementBehavior = behavior.behavior;
+            this.totalMovement = new Movement(behavior.movementAdded);
         }
+
+
+        public void AddMovementByPlayer(Vector3 movement) => this.totalMovement.Add(movement);
     }
 }
