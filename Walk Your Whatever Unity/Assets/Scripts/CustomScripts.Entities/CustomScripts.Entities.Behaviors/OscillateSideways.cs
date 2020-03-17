@@ -10,17 +10,20 @@ namespace CustomScripts.Entities.Behaviors
 {
     public class OscillateSideways : IMovementBehavior
     {
-        private int stepsPerHalfOscillation = 20;
+        private int stepsPerHalfOscillation = 30;
+        private int stepsUntilTurn;
 
-        private int stepsUntilTurn = 10;
-        private float amplitude = .2f;
+        public OscillateSideways()
+        {
+            this.stepsUntilTurn = this.stepsPerHalfOscillation / 2;
+        }
+
+        private float amplitude = 5f;
         private float direction = 1f;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehavior()
         {
             var unitMovement = Vector3.right;
-            var speedDamping = Abs(Sin(Time.fixedTime));
-            Debug.Log(speedDamping);
-            var stepSize = this.amplitude * speedDamping;
+            var stepSize = this.amplitude * Time.fixedDeltaTime;
             var movement = this.direction * unitMovement * stepSize;
 
             this.ChangeDirIfNecessary();
@@ -32,7 +35,8 @@ namespace CustomScripts.Entities.Behaviors
         private void ChangeDirIfNecessary()
         {
             this.stepsUntilTurn--;
-            if (this.stepsUntilTurn <= 0) {
+            if (this.stepsUntilTurn <= 0)
+            {
                 this.direction *= -1f;
                 this.stepsUntilTurn = this.stepsPerHalfOscillation;
             }
