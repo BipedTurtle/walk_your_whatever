@@ -26,6 +26,7 @@ namespace CustomScripts.Entities
 
         private void Start()
         {
+            UpdateManager.Instance.GlobalLateUpdate += this.GetKeyboardInputs;
             UpdateManager.Instance.GlobalLateUpdate += this.Move;
 
             this.GetLeash();
@@ -37,11 +38,21 @@ namespace CustomScripts.Entities
             leash.transform.SetParent(this.transform);
         }
 
+        private Movement playerMovement;
+        private void GetKeyboardInputs()
+        {
+            var horizontalMovement = Input.GetAxis("Horizontal");
+            var movementVector = Vector3.right * horizontalMovement;
+            this.playerMovement = new Movement(movementVector);
+        }
+
         private void Move()
         {
             var pullFactor = .01f;
-            var movement = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
-            transform.position += movement;
+            var movementByPull = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
+            this.playerMovement.Add(movementByPull);
+
+            this.playerMovement.Move(transform);
         }
     }
 }
