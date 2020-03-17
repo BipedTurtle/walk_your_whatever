@@ -21,14 +21,10 @@ namespace CustomScripts.Fundamentals
             this.value = movementVal;
         }
 
-        public void Add(Vector3 value)
-        {
-            this.value += value;
-        }
+        public void Add(Vector3 value) => this.value += value;
 
-        public void Move(Transform objectMoving)
-        {
-            objectMoving.position += this.value;
-        }
+        public void Add(Movement externalMovement, float curbFactor=1f) => this.value += externalMovement.value * curbFactor;
+
+        public void Move(Transform objectMoving) => objectMoving.position += this.value;
     }
 }

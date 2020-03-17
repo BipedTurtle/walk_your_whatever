@@ -17,6 +17,9 @@ namespace CustomScripts.Entities
             }
 
             Instance = this;
+
+
+            this.PlayerMovement = new Movement();
         }
         #endregion
 
@@ -26,8 +29,8 @@ namespace CustomScripts.Entities
 
         private void Start()
         {
-            UpdateManager.Instance.GlobalLateUpdate += this.GetKeyboardInputs;
-            UpdateManager.Instance.GlobalLateUpdate += this.Move;
+            UpdateManager.Instance.GlobalFixedUpdate += this.GetKeyboardInputs;
+            UpdateManager.Instance.GlobalFixedUpdate += this.Move;
 
             this.GetLeash();
         }
@@ -38,21 +41,21 @@ namespace CustomScripts.Entities
             leash.transform.SetParent(this.transform);
         }
 
-        private Movement playerMovement;
+        public Movement PlayerMovement { get; private set; }
         private void GetKeyboardInputs()
         {
             var horizontalMovement = Input.GetAxis("Horizontal");
             var movementVector = Vector3.right * horizontalMovement;
-            this.playerMovement = new Movement(movementVector);
+            this.PlayerMovement = new Movement(movementVector);
         }
 
         private void Move()
         {
             var pullFactor = .01f;
             var movementByPull = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
-            this.playerMovement.Add(movementByPull);
+            this.PlayerMovement.Add(movementByPull);
 
-            this.playerMovement.Move(transform);
+            this.PlayerMovement.Move(transform);
         }
     }
 }

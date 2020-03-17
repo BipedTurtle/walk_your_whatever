@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using CustomScripts.Fundamentals;
 
 namespace CustomScripts.Entities
 {
@@ -24,5 +25,12 @@ namespace CustomScripts.Entities
         #endregion
 
         public Vector3 Position { get => transform.position; }
+
+        protected Movement totalMovement;
+        protected void GetInfluencedByPlayerMovement()
+        {
+            var playerMovement = Player.Instance.PlayerMovement;
+            this.totalMovement.Add(playerMovement, curbFactor: .5f);
+        }
     }
 }

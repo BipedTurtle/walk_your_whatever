@@ -13,13 +13,14 @@ namespace CustomScripts.Entities
             base.Awake();
 
             this.movementBehavior = new OscillateSideways();
-            this.totalMovement = new Movement();
+            base.totalMovement = new Movement();
         }
 
 
         private void Start()
         {
             UpdateManager.Instance.GlobalFixedUpdate += this.AddMovementInherent;
+            UpdateManager.Instance.GlobalFixedUpdate += base.GetInfluencedByPlayerMovement;
             UpdateManager.Instance.GlobalFixedUpdate += this.Walk;
         }
 
@@ -28,13 +29,12 @@ namespace CustomScripts.Entities
 
 
         private IMovementBehavior movementBehavior;
-        private Movement totalMovement;
         private void AddMovementInherent() 
         {
             var behavior = this.movementBehavior.GetBehavior();
 
             this.movementBehavior = behavior.behavior;
-            this.totalMovement = new Movement(behavior.movementAdded);
+            base.totalMovement = new Movement(behavior.movementAdded);
         }
 
 
