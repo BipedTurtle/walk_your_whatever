@@ -29,11 +29,21 @@ namespace CustomScripts.Entities
 
         private void Start()
         {
+            GameManager.Instance.GameOver += this.OnGameOver_Stop;
+
             UpdateManager.Instance.GlobalFixedUpdate += this.GetKeyboardInputs;
             UpdateManager.Instance.GlobalFixedUpdate += this.Move;
 
             this.GetLeash();
         }
+
+
+        private void OnGameOver_Stop()
+        {
+            UpdateManager.Instance.GlobalFixedUpdate -= this.GetKeyboardInputs;
+            UpdateManager.Instance.GlobalFixedUpdate -= this.Move;
+        }
+
 
         private void GetLeash()
         {

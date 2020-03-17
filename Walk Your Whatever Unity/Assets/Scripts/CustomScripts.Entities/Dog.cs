@@ -18,10 +18,21 @@ namespace CustomScripts.Entities
 
         private void Start()
         {
+            GameManager.Instance.GameOver += this.OnGameOver_Stop;
+
             UpdateManager.Instance.GlobalFixedUpdate += this.AddMovementInherent;
             UpdateManager.Instance.GlobalFixedUpdate += base.GetInfluencedByPlayerMovement;
             UpdateManager.Instance.GlobalFixedUpdate += this.Walk;
         }
+
+
+        private void OnGameOver_Stop()
+        {
+            UpdateManager.Instance.GlobalFixedUpdate -= this.AddMovementInherent;
+            UpdateManager.Instance.GlobalFixedUpdate -= base.GetInfluencedByPlayerMovement;
+            UpdateManager.Instance.GlobalFixedUpdate -= this.Walk;
+        }
+
 
 
         private void Walk() => this.totalMovement.Move(transform);
