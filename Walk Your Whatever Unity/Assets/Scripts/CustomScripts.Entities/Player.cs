@@ -51,11 +51,18 @@ namespace CustomScripts.Entities
 
         private void Move()
         {
-            var pullFactor = .03f;
-            var movementByPull = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
-            this.PlayerMovement.Add(movementByPull);
+            GetPulledByWhatever();
 
-            this.PlayerMovement.Move(transform);
+            var player = this.transform;
+            this.PlayerMovement.Move(player);
+
+
+            void GetPulledByWhatever()
+            {
+                var pullFactor = .03f;
+                var movementByPull = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
+                this.PlayerMovement.Add(movementByPull);
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using CustomScripts.Fundamentals;
 using CustomScripts.Managers;
 using CustomScripts.Entities.Behaviors;

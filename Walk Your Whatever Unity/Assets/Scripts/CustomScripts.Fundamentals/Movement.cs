@@ -25,6 +25,17 @@ namespace CustomScripts.Fundamentals
 
         public void Add(Movement externalMovement, float curbFactor=1f) => this.value += externalMovement.value * curbFactor;
 
-        public void Move(Transform objectMoving) => objectMoving.position += this.value;
+        public void Move(Transform objectMoving)
+        {
+            // move sideways
+            objectMoving.position += this.value;
+
+            // default forward movement
+            var forwardMovement = this.GetDefaultForwardMovement();
+            objectMoving.position += forwardMovement;
+        }
+
+        private float forwardSpeed = 3f;
+        private Vector3 GetDefaultForwardMovement() => Vector3.forward * forwardSpeed * Time.fixedDeltaTime;
     }
 }
