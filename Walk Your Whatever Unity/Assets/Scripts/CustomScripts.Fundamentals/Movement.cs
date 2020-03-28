@@ -59,12 +59,10 @@ namespace CustomScripts.Fundamentals
             // default forward movement
             var forwardMovement = this.GetDefaultForwardMovement();
             objectMoving.position += forwardMovement;
-            Debug.Log($"magnitude: {forwardMovement.magnitude}\ncurb: {Curb}");
         }
 
         private float forwardSpeed = 3f;
-        public Vector3 GetDefaultForwardMovement() {
-            return Vector3.forward* forwardSpeed *(1 - Movement.Curb) * Time.fixedDeltaTime;
-        }
+        public Vector3 GetDefaultForwardMovement() =>
+            Vector3.forward* forwardSpeed *(1 - Movement.Curb) * Time.fixedDeltaTime;
     }
 }

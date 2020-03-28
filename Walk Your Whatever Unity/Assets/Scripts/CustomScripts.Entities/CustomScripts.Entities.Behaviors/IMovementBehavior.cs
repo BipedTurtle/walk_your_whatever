@@ -9,6 +9,6 @@ namespace CustomScripts.Entities.Behaviors
 {
     public interface IMovementBehavior
     {
-        (IMovementBehavior behavior, Vector3 movementAdded) GetBehavior();
+        (IMovementBehavior behavior, Vector3 movementAdded) GetBehaviorAndMovement();
     }
 }

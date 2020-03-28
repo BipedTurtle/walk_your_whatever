@@ -12,6 +12,8 @@ namespace CustomScripts.Entities
             base.Awake();
 
             this.movementBehavior = new OscillateSideways();
+            //this.movementBehavior = new StraightWalking();
+
             base.totalMovement = new Movement();
         }
 
@@ -41,7 +43,7 @@ namespace CustomScripts.Entities
         private IMovementBehavior movementBehavior;
         private void AddMovementInherent() 
         {
-            var behavior = this.movementBehavior.GetBehavior();
+            var behavior = this.movementBehavior.GetBehaviorAndMovement();
 
             this.movementBehavior = behavior.behavior;
             base.totalMovement = new Movement(behavior.movementAdded);
