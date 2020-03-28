@@ -54,9 +54,16 @@ namespace CustomScripts.Entities
         public Movement PlayerMovement { get; private set; }
         private void GetKeyboardInputs()
         {
-            var horizontalMovement = Input.GetAxis("Horizontal");
-            var movementVector = Vector3.right * horizontalMovement;
-            this.PlayerMovement = new Movement(movementVector);
+            var horizontalMovement = Input.GetAxis("Horizontal") * Vector3.right;
+
+            var slowSpeed = 2f;
+            var verticalInput = Input.GetAxis("Vertical") * Time.deltaTime * slowSpeed;
+            var curbAmount = verticalInput < 0 ? Mathf.Abs(verticalInput) : 0;
+
+            if (curbAmount > 0)
+                Movement.CurbSpeed(curbAmount);
+
+            this.PlayerMovement = new Movement(horizontalMovement);
         }
 
         private void Move()

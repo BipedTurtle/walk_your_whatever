@@ -4,13 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using CustomScripts.Managers;
+using System.Collections;
 
 namespace CustomScripts.Fundamentals
 {
     public class Movement
     {
-        private Vector3 value;
+        public static float maxCurb { get; } = .3f;
+        private static float _curb;
+        public static float Curb
+        {
+            get => _curb;
+            set
+            {
+                _curb = Mathf.Clamp(value, 0, maxCurb);
+            }
+        }
 
+        public static void CurbSpeed(float curbAmount)
+        {
+            Movement.Curb += curbAmount;
+            if (GameManager.Instance != null)
+                GameManager.Instance.StartCoroutine(CancelOutCurb());
+
+            IEnumerator CancelOutCurb(float after = 2f)
+            {
+                yield return new WaitForSeconds(after);
+                Movement.Curb -= curbAmount;
+            }
+        }
+
+        
+        private Vector3 value;
         public Movement()
         {
             this.value = Vector3.zero;
@@ -33,9 +59,12 @@ namespace CustomScripts.Fundamentals
             // default forward movement
             var forwardMovement = this.GetDefaultForwardMovement();
             objectMoving.position += forwardMovement;
+            Debug.Log($"magnitude: {forwardMovement.magnitude}\ncurb: {Curb}");
         }
 
         private float forwardSpeed = 3f;
-        private Vector3 GetDefaultForwardMovement() => Vector3.forward * forwardSpeed * Time.fixedDeltaTime;
+        public Vector3 GetDefaultForwardMovement() {
+            return Vector3.forward* forwardSpeed *(1 - Movement.Curb) * Time.fixedDeltaTime;
+        }
     }
 }
