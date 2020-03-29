@@ -36,12 +36,12 @@ namespace CustomScripts.Entities.Behaviors
             var movement = this.direction * unitMovement * stepSize;
 
             this.ChangeDirIfNecessary();
-            this.ChangeBeahviorIfNecessary();
+            //this.ChangeBeahviorIfNecessary();
 
             return (behavior: this.nextBehavior, movementAdded: movement);
         }
 
-
+        #region This code might get omitted completely due to design decisions
         private int changeBehaviorThreshold = 20;
         private int oscillationCount;
         private void ChangeBeahviorIfNecessary()
@@ -49,7 +49,7 @@ namespace CustomScripts.Entities.Behaviors
             if (this.oscillationCount >= this.changeBehaviorThreshold)
                 this.nextBehavior = new FixedPointWalking();
         }
-
+        #endregion
 
         private void ChangeDirIfNecessary()
         {

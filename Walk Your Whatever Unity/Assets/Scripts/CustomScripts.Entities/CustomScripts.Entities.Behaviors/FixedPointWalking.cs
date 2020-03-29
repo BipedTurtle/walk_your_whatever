@@ -10,9 +10,12 @@ namespace CustomScripts.Entities.Behaviors
     public class FixedPointWalking : IMovementBehavior
     {
         private IMovementBehavior nextBehavior;
+        private float timeUntilSwitchbehavior;
         public FixedPointWalking()
         {
             this.nextBehavior = this;
+            float duration = 5f;
+            timeUntilSwitchbehavior = Time.time + duration;
         }
 
 

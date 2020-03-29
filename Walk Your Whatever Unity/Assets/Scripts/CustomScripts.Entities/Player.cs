@@ -29,6 +29,8 @@ namespace CustomScripts.Entities
 
         private void Start()
         {
+            this.curbGauge = new CurbGauge();
+
             GameManager.Instance.GameOver += this.OnGameOver_Stop;
 
             UpdateManager.Instance.GlobalFixedUpdate += this.GetKeyboardInputs;
@@ -52,13 +54,11 @@ namespace CustomScripts.Entities
         }
 
         public Movement PlayerMovement { get; private set; }
+        private CurbGauge curbGauge;
         private void GetKeyboardInputs()
         {
             var horizontalMovement = Input.GetAxis("Horizontal") * Vector3.right;
-
-            var slowSpeed = 2f;
-            var verticalInput = Input.GetAxis("Vertical") * Time.deltaTime * slowSpeed;
-            var curbAmount = verticalInput < 0 ? Mathf.Abs(verticalInput) : 0;
+            var curbAmount = this.curbGauge.GetCurbValue();
 
             if (curbAmount > 0)
                 Movement.CurbSpeed(curbAmount);
