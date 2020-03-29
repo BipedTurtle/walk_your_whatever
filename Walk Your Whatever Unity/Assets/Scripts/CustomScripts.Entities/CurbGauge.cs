@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CustomScripts.Fundamentals;
 using UnityEngine;
+using CustomScripts.Managers;
 
 namespace CustomScripts.Entities
 {
@@ -16,14 +17,15 @@ namespace CustomScripts.Entities
             get => _amount;
             set
             {
-                _amount = Mathf.Clamp01(value);
+                _amount = Mathf.Clamp(value, 0, Movement.maxCurb);
             }
         }
         public CurbGauge()
         {
             this.Amount = Movement.maxCurb;
-            Debug.Log(this.Amount);
+            UpdateManager.Instance.GlobalUpdate += this.RecoverGauge;
         }
+
 
         public float GetCurbValue()
         {
@@ -34,7 +36,17 @@ namespace CustomScripts.Entities
             curbValue = Mathf.Abs(curbValue);
 
             this.Amount -= curbValue;
+            Debug.Log(Amount);
             return this.Amount > 0 ? curbValue : 0;
+        }
+
+
+        public void RecoverGauge()
+        {
+            var isNotCurbing = Input.GetAxisRaw("Vertical") == 0;
+            var recoverAmount = Time.deltaTime / 3;
+            if (isNotCurbing)
+                this.Amount += recoverAmount;
         }
     }
 }

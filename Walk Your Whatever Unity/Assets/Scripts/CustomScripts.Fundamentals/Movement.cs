@@ -60,7 +60,7 @@ namespace CustomScripts.Fundamentals
             var forwardMovement = this.GetDefaultForwardMovement();
             objectMoving.position += forwardMovement;
 
-            Debug.Log(forwardMovement.magnitude);
+            //Debug.Log(forwardMovement.magnitude);
         }
 
         private float forwardSpeed = 3f;
