@@ -36,7 +36,7 @@ namespace CustomScripts.Entities
             curbValue = Mathf.Abs(curbValue);
 
             this.Amount -= curbValue;
-            Debug.Log(Amount);
+            //Debug.Log(Amount);
             return this.Amount > 0 ? curbValue : 0;
         }
 

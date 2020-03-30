@@ -48,8 +48,5 @@ namespace CustomScripts.Entities
             this.movementBehavior = behavior.behavior;
             base.totalMovement = new Movement(behavior.movementAdded);
         }
-
-
-        public void AddMovementByPlayer(Vector3 movement) => this.totalMovement.Add(movement);
     }
 }

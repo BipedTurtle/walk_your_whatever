@@ -78,6 +78,7 @@ namespace CustomScripts.Entities
             {
                 var pullFactor = .03f;
                 var movementByPull = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
+
                 this.PlayerMovement.Add(movementByPull);
             }
         }

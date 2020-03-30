@@ -11,7 +11,7 @@ namespace CustomScripts.Entities.Behaviors
     public class OscillateSideways : IMovementBehavior
     {
         // increasing the number of steps increases the amplitude of a Whatever
-        private int stepsPerHalfOscillation = 40;
+        private int stepsPerHalfOscillation = 34;
         private int stepsUntilTurn;
 
         public OscillateSideways()

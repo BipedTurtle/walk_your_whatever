@@ -31,7 +31,9 @@ namespace CustomScripts.Entities
         protected void GetInfluencedByPlayerMovement()
         {
             var playerMovement = Player.Instance.PlayerMovement;
-            this.totalMovement.Add(playerMovement, curbFactor: this.curb);
+            var hasPlayerInput = Input.GetAxisRaw("Horizontal") != 0;
+            if (hasPlayerInput)
+                this.totalMovement.Add(playerMovement, curbFactor: this.curb);
         }
     }
 }
