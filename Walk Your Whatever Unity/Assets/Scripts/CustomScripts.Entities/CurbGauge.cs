@@ -29,15 +29,19 @@ namespace CustomScripts.Entities
 
         public float GetCurbValue()
         {
+            if (this.Amount <= 0)
+                return 0;
+
             var slowSpeed = 2f;
             var verticalInput = Input.GetAxis("Vertical");
-            var curbValue = verticalInput * slowSpeed * Time.deltaTime;
-            curbValue = (curbValue < this.Amount) ? curbValue : this.Amount;
-            curbValue = Mathf.Abs(curbValue);
+            //Debug.Log($"vertical input: {verticalInput}");
+            var curbValue = verticalInput * slowSpeed * Time.fixedDeltaTime;
 
-            this.Amount -= curbValue;
-            //Debug.Log(Amount);
-            return this.Amount > 0 ? curbValue : 0;
+            var curbAmount = Mathf.Abs(curbValue);
+            curbAmount = (curbAmount < this.Amount) ? curbAmount : this.Amount;
+            this.Amount -= curbAmount;
+            var sign = verticalInput > 0 ? -1 : 1;
+            return sign * curbAmount;
         }
 
 

@@ -18,7 +18,7 @@ namespace CustomScripts.Fundamentals
             get => _curb;
             set
             {
-                _curb = Mathf.Clamp(value, 0, maxCurb);
+                _curb = Mathf.Clamp(value, -maxCurb, maxCurb);
             }
         }
 
@@ -59,6 +59,8 @@ namespace CustomScripts.Fundamentals
             // default forward movement
             var forwardMovement = this.GetDefaultForwardMovement();
             objectMoving.position += forwardMovement;
+
+            Debug.Log(forwardMovement.magnitude);
         }
 
         private float forwardSpeed = 3f;

@@ -59,9 +59,7 @@ namespace CustomScripts.Entities
         {
             var horizontalMovement = Input.GetAxis("Horizontal") * Vector3.right;
             var curbAmount = this.curbGauge.GetCurbValue();
-
-            if (curbAmount > 0)
-                Movement.CurbSpeed(curbAmount);
+            Movement.CurbSpeed(curbAmount);
 
             this.PlayerMovement = new Movement(horizontalMovement);
         }
