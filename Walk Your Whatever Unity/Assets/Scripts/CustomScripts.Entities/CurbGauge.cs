@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using CustomScripts.Fundamentals;
+﻿using CustomScripts.Fundamentals;
 using UnityEngine;
 using CustomScripts.Managers;
 
@@ -12,7 +7,7 @@ namespace CustomScripts.Entities
     public class CurbGauge
     {
         private float _amount;
-        private float Amount
+        public float Amount
         {
             get => _amount;
             set
@@ -23,6 +18,8 @@ namespace CustomScripts.Entities
         public CurbGauge()
         {
             this.Amount = Movement.maxCurb;
+            UIManager.Instance.CurbGauge = this;
+
             UpdateManager.Instance.GlobalUpdate += this.RecoverGauge;
         }
 
@@ -34,7 +31,6 @@ namespace CustomScripts.Entities
 
             var slowSpeed = 2f;
             var verticalInput = Input.GetAxis("Vertical");
-            //Debug.Log($"vertical input: {verticalInput}");
             var curbValue = verticalInput * slowSpeed * Time.fixedDeltaTime;
 
             var curbAmount = Mathf.Abs(curbValue);

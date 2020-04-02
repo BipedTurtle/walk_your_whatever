@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using CustomScripts.Managers;
 using System.Collections;
 
@@ -57,12 +52,12 @@ namespace CustomScripts.Fundamentals
             objectMoving.position += this.value;
 
             // default forward movement
-            var forwardMovement = this.GetDefaultForwardMovement();
+            var forwardMovement = GetDefaultForwardMovement(Movement.Curb);
             objectMoving.position += forwardMovement;
         }
 
-        private float forwardSpeed = 3f;
-        public Vector3 GetDefaultForwardMovement() =>
-            Vector3.forward* forwardSpeed *(1 - Movement.Curb) * Time.fixedDeltaTime;
+        private static float forwardSpeed = 3f;
+        public static Vector3 GetDefaultForwardMovement(float curb = 0) =>
+            Vector3.forward * forwardSpeed *(1 - curb) * Time.fixedDeltaTime;
     }
 }
