@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using CustomScripts.Entities;
 
 namespace CustomScripts.Managers
@@ -53,9 +54,12 @@ namespace CustomScripts.Managers
         }
 
 
-        private void OnGameOver()
+        public void OnGameOver()
         {
-            this.GameOver?.Invoke();    
+            this.GameOver?.Invoke();
+
+            var currentScene = SceneManager.GetActiveScene();
+            SceneManager.LoadScene(currentScene.name, LoadSceneMode.Single);
         }
     }
 }
