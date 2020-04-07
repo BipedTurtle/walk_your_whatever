@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62245021aabf84743b7f50062cc535c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boundary: {x: -5, y: 5}

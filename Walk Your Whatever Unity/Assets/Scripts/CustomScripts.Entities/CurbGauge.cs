@@ -44,7 +44,7 @@ namespace CustomScripts.Entities
         public void RecoverGauge()
         {
             var isNotCurbing = Input.GetAxisRaw("Vertical") == 0;
-            var recoverAmount = Time.deltaTime / 3;
+            var recoverAmount = Time.deltaTime / 25;
             if (isNotCurbing)
                 this.Amount += recoverAmount;
         }

@@ -30,17 +30,21 @@ namespace CustomScripts.Fundamentals
             }
         }
 
+        private void ResetCurb() => Movement.Curb = 0;
 
         private Vector3 value;
         public Movement()
         {
             this.value = Vector3.zero;
+            GameManager.Instance.GameOver += this.ResetCurb;
         }
 
         public Movement(Vector3 movementVal)
         {
             this.value = movementVal;
+            GameManager.Instance.GameOver += this.ResetCurb;
         }
+
 
         public void Add(Vector3 value) => this.value += value;
 
