@@ -30,6 +30,7 @@ namespace CustomScripts.Entities
         private void Start()
         {
             this.curbGauge = new CurbGauge();
+            this.defaultVertical = (Whatever.Instance.Position - this.Position).Set(x:0, y: 0);
 
             GameManager.Instance.GameOver += this.OnGameOver_Stop;
 
@@ -64,6 +65,9 @@ namespace CustomScripts.Entities
             this.PlayerMovement = new Movement(horizontalMovement);
         }
 
+
+        private Vector3 defaultVertical;
+        private Vector3 ToWhatever => (Whatever.Instance.Position - this.Position).Set(y:0);
         private void Move()
         {
             GetPulledByWhatever();
@@ -75,8 +79,14 @@ namespace CustomScripts.Entities
             void GetPulledByWhatever()
             {
                 var pullFactor = .03f;
-                var movementByPull = (Whatever.Instance.Position - this.Position).Set(y: 0, z: 0) * pullFactor;
 
+                Vector3 sideMovementByPull = this.ToWhatever.Set(y: 0, z: 0) * pullFactor;
+
+                Vector3 verticalForce = (this.ToWhatever - this.defaultVertical).Set(x:0, y:0);
+                verticalForce = verticalForce.magnitude > .01f ? verticalForce : Vector3.zero;
+                Vector3 verticalMovementByPull = verticalForce * pullFactor;
+
+                Vector3 movementByPull = sideMovementByPull + verticalMovementByPull;
                 this.PlayerMovement.Add(movementByPull);
             }
         }
