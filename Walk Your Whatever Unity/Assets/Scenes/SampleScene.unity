@@ -213,6 +213,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Big Dog (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2042586937744720993, guid: 6a283c76b239cce438303c3e7f3d0c5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3099730231838642014, guid: 6a283c76b239cce438303c3e7f3d0c5b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -226,7 +231,7 @@ PrefabInstance:
     - target: {fileID: 3099730231838642014, guid: 6a283c76b239cce438303c3e7f3d0c5b,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.93
+      value: 14.93
       objectReference: {fileID: 0}
     - target: {fileID: 3099730231838642014, guid: 6a283c76b239cce438303c3e7f3d0c5b,
         type: 3}
@@ -3004,6 +3009,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Big Dog
+      objectReference: {fileID: 0}
+    - target: {fileID: 2042586937744720993, guid: 6a283c76b239cce438303c3e7f3d0c5b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3099730231838642014, guid: 6a283c76b239cce438303c3e7f3d0c5b,
         type: 3}
