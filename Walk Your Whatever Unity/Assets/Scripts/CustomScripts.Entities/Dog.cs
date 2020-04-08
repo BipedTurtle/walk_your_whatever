@@ -11,7 +11,8 @@ namespace CustomScripts.Entities
         {
             base.Awake();
 
-            this.movementBehavior = new OscillateSideways();
+            this.movementBehavior = new WalkTowardOther();
+            //this.movementBehavior = new OscillateSideways();
             //this.movementBehavior = new StraightWalking();
 
             base.totalMovement = new Movement();
