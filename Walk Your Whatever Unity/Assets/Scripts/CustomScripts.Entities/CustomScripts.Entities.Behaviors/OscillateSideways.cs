@@ -5,18 +5,18 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.Mathf;
 using CustomScripts.Managers;
+using CustomScripts.Fundamentals;
 
 namespace CustomScripts.Entities.Behaviors
 {
     public class OscillateSideways : IMovementBehavior
     {
-        // increasing the number of steps increases the amplitude of a Whatever
-        private int stepsPerHalfOscillation = 34;
-        private int stepsUntilTurn;
+        // stepsPerHalfOscillation is now obsolete. It's just here as a reference
+        private int stepsPerHalfOscillation = 30;
 
         public OscillateSideways()
         {
-            this.stepsUntilTurn = this.stepsPerHalfOscillation / 2;
+            this.distanceUntilTurn = this.StepSpeed * Time.fixedDeltaTime * 15;
             this.nextBehavior = this;
         }
 
@@ -27,15 +27,15 @@ namespace CustomScripts.Entities.Behaviors
         }
 
         private IMovementBehavior nextBehavior;
-        private float stepSpeed = 4.5f;
+        private float StepSpeed => 4.5f * (1f - Movement.Curb);
         private float direction = 1f;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehaviorAndMovement()
         {
             var unitMovement = Vector3.right;
-            var stepSize = this.stepSpeed * Time.fixedDeltaTime;
+            var stepSize = this.StepSpeed * Time.fixedDeltaTime;
             var movement = this.direction * unitMovement * stepSize;
 
-            this.ChangeDirIfNecessary();
+            this.ChangeDirIfNecessary(movement.magnitude);
             //this.ChangeBeahviorIfNecessary();
 
             return (behavior: this.nextBehavior, movementAdded: movement);
@@ -51,13 +51,14 @@ namespace CustomScripts.Entities.Behaviors
         }
         #endregion
 
-        private void ChangeDirIfNecessary()
+        private float distanceUntilTurn;
+        private void ChangeDirIfNecessary(float distanceTraveled)
         {
-            this.stepsUntilTurn--;
-            if (this.stepsUntilTurn <= 0) {
+            this.distanceUntilTurn -= distanceTraveled;
+            if (distanceUntilTurn < 0) {
                 this.direction *= -1f;
-                this.stepsUntilTurn = this.stepsPerHalfOscillation;
-                this.oscillationCount++;
+                var curbFix = 1f - Movement.Curb;
+                this.distanceUntilTurn = (this.StepSpeed / curbFix) * Time.fixedDeltaTime * 30;
             }
         }
     }
