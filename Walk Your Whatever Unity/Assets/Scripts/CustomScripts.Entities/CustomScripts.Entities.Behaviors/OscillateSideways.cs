@@ -6,29 +6,40 @@ using UnityEngine;
 using static UnityEngine.Mathf;
 using CustomScripts.Managers;
 using CustomScripts.Fundamentals;
+using CustomScripts.Environment;
 
 namespace CustomScripts.Entities.Behaviors
 {
     public class OscillateSideways : IMovementBehavior
     {
+        public enum OscillationDirection { Left, Right }
+
         // stepsPerHalfOscillation is now obsolete. It's just here as a reference
         private int stepsPerHalfOscillation = 30;
 
-        public OscillateSideways()
+        public OscillateSideways(Vector3 moveDirThisFrame)
         {
             this.distanceUntilTurn = this.StepSpeed * Time.fixedDeltaTime * 15;
-            this.nextBehavior = this;
+
+            var oscillationDirection = (moveDirThisFrame.x < 0) ? OscillationDirection.Left : OscillationDirection.Right;
+            this.SetStartingDirection(oscillationDirection);
         }
 
-        private IEnumerator UpdateBehavior(float after)
+
+        private void SetStartingDirection(OscillationDirection startDir)
         {
-            yield return new WaitForSeconds(after);
-            this.nextBehavior = new FixedPointWalking();
+            switch (startDir) {
+                case OscillationDirection.Left:
+                    this.direction *= -1f;
+                    break;
+                case OscillationDirection.Right:
+                    this.direction *= 1f;
+                    break;
+            }
         }
 
-        private IMovementBehavior nextBehavior;
+
         private float StepSpeed => 4.5f * (1f - Movement.Curb);
-        private float direction = 1f;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehaviorAndMovement()
         {
             var unitMovement = Vector3.right;
@@ -36,21 +47,14 @@ namespace CustomScripts.Entities.Behaviors
             var movement = this.direction * unitMovement * stepSize;
 
             this.ChangeDirIfNecessary(movement.magnitude);
-            //this.ChangeBeahviorIfNecessary();
 
-            return (behavior: this.nextBehavior, movementAdded: movement);
+            var behavior = this.GetNextBehavior();
+
+            return (behavior, movement);
         }
 
-        #region This code might get omitted completely due to design decisions
-        private int changeBehaviorThreshold = 20;
-        private int oscillationCount;
-        private void ChangeBeahviorIfNecessary()
-        {
-            if (this.oscillationCount >= this.changeBehaviorThreshold)
-                this.nextBehavior = new FixedPointWalking();
-        }
-        #endregion
 
+        private float direction = 1f;
         private float distanceUntilTurn;
         private void ChangeDirIfNecessary(float distanceTraveled)
         {
@@ -60,6 +64,16 @@ namespace CustomScripts.Entities.Behaviors
                 var curbFix = 1f - Movement.Curb;
                 this.distanceUntilTurn = (this.StepSpeed / curbFix) * Time.fixedDeltaTime * 30;
             }
+        }
+
+        private IMovementBehavior GetNextBehavior()
+        {
+            var attractorNearby = BigDog.GetClosest();
+
+            if (attractorNearby == null)
+                return this;
+            else
+                return new WalkTowardOther();
         }
     }
 }

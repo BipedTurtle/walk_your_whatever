@@ -7,6 +7,10 @@ namespace CustomScripts.Entities
 {
     public class Dog : Whatever
     {
+        private static Vector3 previousPos = Vector3.zero;
+        private static Vector3 currentPos = Vector3.zero;
+        public static Vector3 MovmentThisFrame => currentPos - previousPos;
+
         protected override void Awake()
         {
             base.Awake();
@@ -27,6 +31,7 @@ namespace CustomScripts.Entities
             UpdateManager.Instance.GlobalFixedUpdate += this.AddMovementInherent;
             UpdateManager.Instance.GlobalFixedUpdate += base.GetInfluencedByPlayerMovement;
             UpdateManager.Instance.GlobalFixedUpdate += this.Walk;
+            UpdateManager.Instance.GlobalFixedUpdate += this.UpdateMovementPerFrame;
         }
 
 
@@ -37,6 +42,12 @@ namespace CustomScripts.Entities
             UpdateManager.Instance.GlobalFixedUpdate -= this.Walk;
         }
 
+
+        private void UpdateMovementPerFrame()
+        {
+            Dog.previousPos = Dog.currentPos;
+            Dog.currentPos = Dog.Instance.Position;
+        }
 
 
         private void Walk() => this.totalMovement.Move(transform);

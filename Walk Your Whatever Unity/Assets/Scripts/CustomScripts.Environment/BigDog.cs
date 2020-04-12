@@ -7,6 +7,7 @@ using UnityEngine;
 using CustomScripts.Managers;
 using CustomScripts.Entities;
 using CustomScripts.Fundamentals;
+using CustomScripts.Entities.Behaviors;
 
 namespace CustomScripts.Environment
 {
@@ -24,18 +25,20 @@ namespace CustomScripts.Environment
         }
 
 
-        // the diagonal of a 3x3 square
-        private static float closeThreshold = Mathf.Sqrt(18f);
         public static BigDog GetClosest()
         {
-            var dogInfo =
+            var bigDogInfo =
                 BigDog.BigDogs
-                    .Select(dog => new { bigDog = dog, distance = (dog.transform.position - Player.Instance.Position).Set(y: 0).magnitude })
-                    .Aggregate((current, next) => (next.distance < current.distance) ? next : current);
+                    .Select(dog => new { bigDog = dog, playerToDogDistance = (dog.transform.position - Player.Instance.Position).Set(y: 0).magnitude })
+                    .Aggregate((current, next) => (next.playerToDogDistance < current.playerToDogDistance) ? next : current);
+
+            bool attractionCondition =
+                bigDogInfo.playerToDogDistance < WalkTowardOther.targetDistanceThreshold &&
+                Whatever.Instance.Position.z < bigDogInfo.bigDog.transform.position.z;
 
             return
-                (dogInfo.distance < BigDog.closeThreshold) ?
-                    dogInfo.bigDog :
+                (attractionCondition) ?
+                    bigDogInfo.bigDog :
                     null;
         }
 

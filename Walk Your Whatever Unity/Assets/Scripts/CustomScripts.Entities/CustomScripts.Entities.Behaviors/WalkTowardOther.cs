@@ -35,9 +35,10 @@ namespace CustomScripts.Entities.Behaviors
         }
 
 
-        private float targetDistanceThreshold = Mathf.Sqrt(3 * 3 + 3 * 3);
+        // the diagonal of a 4x4 square
+        public static float targetDistanceThreshold => Mathf.Sqrt(32);
         private Vector3 ToTarget => this.target == null ? Vector3.zero : this.target.position - Whatever.Instance.Position;
-        private bool TargetWithinRange => ToTarget.magnitude < targetDistanceThreshold;
+        private bool TargetWithinRange => (Whatever.Instance.Position.z < this.target.position.z) && (ToTarget.magnitude < targetDistanceThreshold);
         private IMovementBehavior LoseTargetIfOutOfSight()
         {
             bool targetOutOfRange = !this.TargetWithinRange;
@@ -60,6 +61,7 @@ namespace CustomScripts.Entities.Behaviors
             Vector3 horizontalBias = Vector3.right * this.ToTarget.x * .48f;
             Vector3 verticalBias = Vector3.back * this.ToTarget.z * .3f;
             Vector3 movement = this.ToTarget.normalized + horizontalBias + verticalBias;
+
             return
                 this.TargetWithinRange ?
                     movement * speed * Time.fixedDeltaTime :

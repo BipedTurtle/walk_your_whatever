@@ -11,7 +11,7 @@ namespace CustomScripts.Entities.Behaviors
 {
     public class Resetting : IMovementBehavior
     {
-        private float speed = 8f;
+        private float speed = 4f;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehaviorAndMovement()
         {
             var movement = this.MoveToDefaultPos() * this.speed * Time.fixedDeltaTime;
@@ -24,16 +24,18 @@ namespace CustomScripts.Entities.Behaviors
         private Vector3 MoveToDefaultPos() => (Player.Instance.Position - Whatever.Instance.Position).Set(y: 0, z: 0);
 
 
+        private float threshold = .1f;
+        private float RemainingDistance => Mathf.Abs(Player.Instance.Position.x - Whatever.Instance.Position.x);
         private IMovementBehavior GetBehavior()
         {
-            // check if condition for walkTowardOther is fulfilled
             var closestBigDog = BigDog.GetClosest();
             if (closestBigDog != null)
                 return new WalkTowardOther();
+
+            if (this.RemainingDistance < this.threshold)
+                return new OscillateSideways(Dog.MovmentThisFrame);
             else
                 return this;
-
-            // check if condition for oscillation is fulfilled    
         }
     }
 }
