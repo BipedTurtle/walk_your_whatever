@@ -1,8 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using CustomScripts.Managers;
 using CustomScripts.Entities;
@@ -42,9 +40,39 @@ namespace CustomScripts.Environment
                     null;
         }
 
+
+        private Vector3 ToDogVector => Dog.Instance.Position - transform.position;
+        private float biteThreshold = Mathf.Sqrt(5);
+        private float lungeSpeed = 12f;
         private void Bite()
         {
-               
+            var toDogDistance = this.ToDogVector.magnitude;
+            if (toDogDistance < this.biteThreshold) {
+                this.Disable();
+                StartCoroutine(BitingAction());
+            }
+
+            IEnumerator BitingAction()
+            {
+                Vector3 lungeThisFrame = this.ToDogVector.normalized * this.lungeSpeed * Time.fixedDeltaTime;
+                transform.position += lungeThisFrame.Set(y:0);
+                yield return null;
+
+
+                float distanceRemaining = this.ToDogVector.magnitude;
+                var exactBiteThreshold = .5f;
+                //Debug.Log(distanceRemaining);
+                if (distanceRemaining > exactBiteThreshold)
+                    StartCoroutine(BitingAction());
+                //else
+                //    GameManager.Instance.OnGameOver();
+            }
+        }
+
+
+        private void Disable()
+        {
+            UpdateManager.Instance.GlobalUpdate -= this.Bite;
         }
 
 
