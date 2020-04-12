@@ -22,6 +22,7 @@ namespace CustomScripts.Environment
             SceneManager.sceneLoaded += delegate { BigDogs.Clear(); };
 
             UpdateManager.Instance.GlobalUpdate += this.Bite;
+            UpdateManager.Instance.GlobalUpdate += this.DisplayAttraction;
         }
 
 
@@ -44,12 +45,12 @@ namespace CustomScripts.Environment
 
 
         private Vector3 ToDogVector => Dog.Instance.Position - transform.position;
-        private float biteThreshold = Mathf.Sqrt(4);
+        private float biteThreshold = Mathf.Sqrt(3);
+        private bool isWithinBiteRange => ToDogVector.magnitude < biteThreshold;
         private float lungeSpeed = 12f;
         private void Bite()
         {
-            var toDogDistance = this.ToDogVector.magnitude;
-            if (toDogDistance < this.biteThreshold) {
+            if (this.isWithinBiteRange) {
                 this.Disable();
                 StartCoroutine(BitingAction());
             }
@@ -60,21 +61,37 @@ namespace CustomScripts.Environment
                 transform.position += lungeThisFrame.Set(y:0);
                 yield return null;
 
-
                 float distanceRemaining = this.ToDogVector.magnitude;
                 var exactBiteThreshold = .5f;
-                //Debug.Log(distanceRemaining);
                 if (distanceRemaining > exactBiteThreshold)
                     StartCoroutine(BitingAction());
-                //else
-                //    GameManager.Instance.OnGameOver();
+                else
+                    GameManager.Instance.OnGameOver();
             }
+        }
+
+
+        [SerializeField] private LineRenderer attraction;
+        private bool isWithinAttractionRange =>
+            ToDogVector.magnitude < WalkTowardOther.targetDistanceThreshold &&
+            ToDogVector.z < 0;
+        private void DisplayAttraction()
+        {
+            if (this.isWithinAttractionRange) {
+                Vector3 startPos = transform.InverseTransformPoint(transform.position);
+                Vector3 endPos = transform.InverseTransformPoint(Dog.Instance.Position);
+                this.attraction.SetPositions(new Vector3[] { startPos, endPos });
+            }
+            else
+                this.attraction.SetPositions(Enumerable.Repeat(Vector3.zero, count: 2).ToArray());
         }
 
 
         private void Disable()
         {
             UpdateManager.Instance.GlobalUpdate -= this.Bite;
+            UpdateManager.Instance.GlobalUpdate -= this.DisplayAttraction;
+            BigDog.BigDogs.Remove(this);
         }
 
 
