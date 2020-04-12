@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using CustomScripts.Entities;
+using CustomScripts.Environment;
 
 namespace CustomScripts.Managers
 {
