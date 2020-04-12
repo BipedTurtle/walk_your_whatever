@@ -8,13 +8,6 @@ namespace CustomScripts.Entities.Behaviors
 {
     public class WalkTowardOther : IMovementBehavior
     {
-        private List<BigDog> otherDogs = new List<BigDog>();
-        public WalkTowardOther()
-        {
-            this.otherDogs = GameManager.FindObjectsOfType<BigDog>().ToList();
-        }
-
-
         private Transform target;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehaviorAndMovement()
         {
@@ -22,20 +15,20 @@ namespace CustomScripts.Entities.Behaviors
                 this.target = this.SetTarget();
 
             var movement = this.GetMovementToTarget();
-            this.LoseTargetIfOutOfSight();
-            return (this, movement);
+            var behavior = this.LoseTargetIfOutOfSight();
+            return (behavior, movement);
         }
 
 
         private Transform SetTarget()
         {
-            var thereAreNoOtherDogs = this.otherDogs.Count == 0;
+            var thereAreNoOtherDogs = BigDog.BigDogs.Count == 0;
             if (thereAreNoOtherDogs)
                 return null;
 
             return 
                 this.target =
-                    this.otherDogs
+                    BigDog.BigDogs
                         .Select(d => new { Dog = d, Distance = (d.transform.position - Whatever.Instance.Position).sqrMagnitude })
                         .Aggregate(func: (current, next) => current.Distance > next.Distance ? next : current)
                         .Dog.transform;
@@ -45,11 +38,14 @@ namespace CustomScripts.Entities.Behaviors
         private float targetDistanceThreshold = Mathf.Sqrt(3 * 3 + 3 * 3);
         private Vector3 ToTarget => this.target == null ? Vector3.zero : this.target.position - Whatever.Instance.Position;
         private bool TargetWithinRange => ToTarget.magnitude < targetDistanceThreshold;
-        private void LoseTargetIfOutOfSight()
+        private IMovementBehavior LoseTargetIfOutOfSight()
         {
             bool targetOutOfRange = !this.TargetWithinRange;
+            this.target = (targetOutOfRange) ? null : this.target;
             if (targetOutOfRange)
-                this.target = null;
+                return new Resetting();
+            else
+                return this;
         }
 
 

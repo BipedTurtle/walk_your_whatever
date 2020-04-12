@@ -11,7 +11,7 @@ namespace CustomScripts.Entities.Behaviors
 {
     public class Resetting : IMovementBehavior
     {
-        private float speed = 3f;
+        private float speed = 8f;
         public (IMovementBehavior behavior, Vector3 movementAdded) GetBehaviorAndMovement()
         {
             var movement = this.MoveToDefaultPos() * this.speed * Time.fixedDeltaTime;

@@ -13,7 +13,7 @@ namespace CustomScripts.Environment
     public class BigDog : MonoBehaviour
     {
         [SerializeField] private float bitingDistance = Mathf.Sqrt(2);
-        private static List<BigDog> BigDogs { get; } = new List<BigDog>();
+        public static List<BigDog> BigDogs { get; } = new List<BigDog>();
 
 
         private void Start()
