@@ -6,6 +6,7 @@ using CustomScripts.Managers;
 using CustomScripts.Entities;
 using CustomScripts.Fundamentals;
 using CustomScripts.Entities.Behaviors;
+using UnityEngine.SceneManagement;
 
 namespace CustomScripts.Environment
 {
@@ -18,6 +19,7 @@ namespace CustomScripts.Environment
         private void Start()
         {
             this.RegsiterBigDog();
+            SceneManager.sceneLoaded += delegate { BigDogs.Clear(); };
 
             UpdateManager.Instance.GlobalUpdate += this.Bite;
         }
@@ -42,7 +44,7 @@ namespace CustomScripts.Environment
 
 
         private Vector3 ToDogVector => Dog.Instance.Position - transform.position;
-        private float biteThreshold = Mathf.Sqrt(5);
+        private float biteThreshold = Mathf.Sqrt(4);
         private float lungeSpeed = 12f;
         private void Bite()
         {

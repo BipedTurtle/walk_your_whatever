@@ -24,7 +24,7 @@ namespace CustomScripts.Entities.Behaviors
         private Vector3 MoveToDefaultPos() => (Player.Instance.Position - Whatever.Instance.Position).Set(y: 0, z: 0);
 
 
-        private float threshold = .1f;
+        private float threshold = .13f;
         private float RemainingDistance => Mathf.Abs(Player.Instance.Position.x - Whatever.Instance.Position.x);
         private IMovementBehavior GetBehavior()
         {

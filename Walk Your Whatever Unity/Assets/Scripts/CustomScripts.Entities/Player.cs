@@ -84,7 +84,7 @@ namespace CustomScripts.Entities
 
                 Vector3 verticalForce = (this.ToWhatever - this.defaultVertical).Set(x:0, y:0);
                 verticalForce = verticalForce.magnitude > .01f ? verticalForce : Vector3.zero;
-                Vector3 verticalMovementByPull = verticalForce * pullFactor;
+                Vector3 verticalMovementByPull = verticalForce * pullFactor * .5f;
 
                 Vector3 movementByPull = sideMovementByPull + verticalMovementByPull;
                 this.PlayerMovement.Add(movementByPull);

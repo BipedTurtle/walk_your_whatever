@@ -2,6 +2,7 @@
 using CustomScripts.Fundamentals;
 using CustomScripts.Managers;
 using CustomScripts.Entities.Behaviors;
+using UnityEngine.SceneManagement;
 
 namespace CustomScripts.Entities
 {
@@ -27,6 +28,8 @@ namespace CustomScripts.Entities
         private void Start()
         {
             GameManager.Instance.GameOver += this.OnGameOver_Stop;
+
+            SceneManager.sceneLoaded += delegate { previousPos = Vector3.zero; currentPos = Vector3.zero; };
 
             UpdateManager.Instance.GlobalFixedUpdate += this.AddMovementInherent;
             UpdateManager.Instance.GlobalFixedUpdate += base.GetInfluencedByPlayerMovement;
