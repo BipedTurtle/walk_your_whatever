@@ -69,7 +69,7 @@ namespace CustomScripts.Entities.Behaviors
         private IMovementBehavior GetNextBehavior()
         {
             var attractorNearby = BigDog.GetClosest();
-
+            //Debug.Log(attractorNearby);
             if (attractorNearby == null)
                 return this;
             else

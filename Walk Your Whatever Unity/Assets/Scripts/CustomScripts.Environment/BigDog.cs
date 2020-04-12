@@ -30,11 +30,11 @@ namespace CustomScripts.Environment
         {
             var bigDogInfo =
                 BigDog.BigDogs
-                    .Select(dog => new { bigDog = dog, playerToDogDistance = (dog.transform.position - Player.Instance.Position).Set(y: 0).magnitude })
+                    .Select(dog => new { bigDog = dog, playerToDogDistance = (dog.transform.position - Dog.Instance.Position).Set(y: 0).magnitude })
                     .Aggregate((current, next) => (next.playerToDogDistance < current.playerToDogDistance) ? next : current);
 
             bool attractionCondition =
-                bigDogInfo.playerToDogDistance < WalkTowardOther.targetDistanceThreshold &&
+                bigDogInfo.playerToDogDistance < WalkTowardOther.attractionDistanceThreshold &&
                 Whatever.Instance.Position.z < bigDogInfo.bigDog.transform.position.z;
 
             return
@@ -73,7 +73,7 @@ namespace CustomScripts.Environment
 
         [SerializeField] private LineRenderer attraction;
         private bool isWithinAttractionRange =>
-            ToDogVector.magnitude < WalkTowardOther.targetDistanceThreshold &&
+            ToDogVector.magnitude < WalkTowardOther.attractionDistanceThreshold &&
             ToDogVector.z < 0;
         private void DisplayAttraction()
         {
