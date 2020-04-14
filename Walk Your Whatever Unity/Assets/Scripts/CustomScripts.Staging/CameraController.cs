@@ -7,8 +7,11 @@ namespace CustomScripts.Staging
 {
     public class CameraController : MonoBehaviour
     {
+        public static Camera main { get; private set; }
         private void Start()
         {
+            main = Camera.main;
+
             UpdateManager.Instance.GlobalLateUpdate += this.TrackDownWhatever;
         }
 
