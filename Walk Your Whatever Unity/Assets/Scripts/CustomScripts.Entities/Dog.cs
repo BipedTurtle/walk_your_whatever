@@ -15,7 +15,7 @@ namespace CustomScripts.Entities
         protected override void Awake()
         {
             base.Awake();
-
+            
             this.movementBehavior = new Resetting();
             //this.movementBehavior = new WalkTowardOther();
             //this.movementBehavior = new OscillateSideways();

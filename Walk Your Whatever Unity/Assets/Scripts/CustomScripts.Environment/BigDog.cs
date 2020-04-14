@@ -10,14 +10,16 @@ using UnityEngine.SceneManagement;
 
 namespace CustomScripts.Environment
 {
-    public class BigDog : MonoBehaviour
+    public class BigDog : Obstacle
     {
         [SerializeField] private float bitingDistance = Mathf.Sqrt(2);
         public static List<BigDog> BigDogs { get; } = new List<BigDog>();
 
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             this.RegsiterBigDog();
             SceneManager.sceneLoaded += delegate { BigDogs.Clear(); };
 

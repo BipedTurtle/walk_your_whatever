@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2538113901568848259}
   - component: {fileID: 4500904074956401230}
   - component: {fileID: 6257635395040017749}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tree-prototype
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -71,7 +71,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1d3d35dfd6391e34d91e44e29c258207, type: 2}
+  - {fileID: 869799023218240280}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -100,10 +100,10 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317101276735078920}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.0852093, y: 11.694819, z: 0.8449784}
+  m_Size: {x: 10, y: 11.694819, z: 11}
   m_Center: {x: -0.008951008, y: 5.8474097, z: -0.029419571}
 --- !u!95 &4500904074956401230
 Animator:

@@ -9,16 +9,25 @@ using CustomScripts.Managers;
 
 namespace CustomScripts.Environment
 {
-    public class Tree : MonoBehaviour
+    public class Tree : Obstacle
     {
         [SerializeField] private float fallDistance = 4f;
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             this.animator = GetComponent<Animator>();
 
             UpdateManager.Instance.GlobalUpdate += this.Fall;
         }
+
+
+        protected override void OnTriggerEnter(Collider other)
+        {
+            base.OnTriggerEnter(other);
+        }
+
 
         private Animator animator;
         private void Fall()
