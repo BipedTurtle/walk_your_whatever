@@ -18,6 +18,7 @@ namespace CustomScripts.Managers
             }
 
             Instance = this;
+            gameObject.hideFlags = HideFlags.HideInHierarchy;
         }
         #endregion
 

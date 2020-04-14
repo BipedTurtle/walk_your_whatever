@@ -14,12 +14,10 @@ namespace CustomScripts.Entities.Behaviors
     {
         public enum OscillationDirection { Left, Right }
 
-        // stepsPerHalfOscillation is now obsolete. It's just here as a reference
         private int stepsPerHalfOscillation = 30;
-
         public OscillateSideways(Vector3 moveDirThisFrame)
         {
-            this.distanceUntilTurn = this.StepSpeed * Time.fixedDeltaTime * 15;
+            this.distanceUntilTurn = this.StepSpeed * Time.fixedDeltaTime * (this.stepsPerHalfOscillation /2);
 
             var oscillationDirection = (moveDirThisFrame.x < 0) ? OscillationDirection.Left : OscillationDirection.Right;
             this.SetStartingDirection(oscillationDirection);
@@ -46,6 +44,11 @@ namespace CustomScripts.Entities.Behaviors
             var stepSize = this.StepSpeed * Time.fixedDeltaTime;
             var movement = this.direction * unitMovement * stepSize;
 
+            #region Movement Analytics
+            var oscillationPerFrame = movement.magnitude / this.regularOscillationAmount;
+            MovementAnalytics.MeasureOscillation(oscillationPerFrame);
+            #endregion
+
             this.ChangeDirIfNecessary(movement.magnitude);
 
             var behavior = this.GetNextBehavior();
@@ -56,13 +59,14 @@ namespace CustomScripts.Entities.Behaviors
 
         private float direction = 1f;
         private float distanceUntilTurn;
+        private float curbFix => 1f - Movement.Curb;
+        private float regularOscillationAmount => (this.StepSpeed / curbFix) * Time.fixedDeltaTime * this.stepsPerHalfOscillation;
         private void ChangeDirIfNecessary(float distanceTraveled)
         {
             this.distanceUntilTurn -= distanceTraveled;
             if (distanceUntilTurn < 0) {
                 this.direction *= -1f;
-                var curbFix = 1f - Movement.Curb;
-                this.distanceUntilTurn = (this.StepSpeed / curbFix) * Time.fixedDeltaTime * 30;
+                this.distanceUntilTurn = regularOscillationAmount;
             }
         }
 

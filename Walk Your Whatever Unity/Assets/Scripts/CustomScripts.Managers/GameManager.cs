@@ -14,7 +14,6 @@ namespace CustomScripts.Managers
     {
         #region Singleton
         public static GameManager Instance { get; private set; }
-
         private void Awake()
         {
             if (Instance != null) {
@@ -25,6 +24,7 @@ namespace CustomScripts.Managers
             Instance = this;
         }
         #endregion
+
 
         private void Start()
         {

@@ -28,6 +28,9 @@ namespace CustomScripts.Environment
 
         public static BigDog GetClosest()
         {
+            if (BigDog.BigDogs.Count == 0)
+                return null;
+
             var bigDogInfo =
                 BigDog.BigDogs
                     .Select(dog => new { bigDog = dog, playerToDogDistance = (dog.transform.position - Dog.Instance.Position).Set(y: 0).magnitude })

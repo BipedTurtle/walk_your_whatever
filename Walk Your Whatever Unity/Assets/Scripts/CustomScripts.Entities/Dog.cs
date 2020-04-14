@@ -43,6 +43,7 @@ namespace CustomScripts.Entities
             UpdateManager.Instance.GlobalFixedUpdate -= this.AddMovementInherent;
             UpdateManager.Instance.GlobalFixedUpdate -= base.GetInfluencedByPlayerMovement;
             UpdateManager.Instance.GlobalFixedUpdate -= this.Walk;
+            UpdateManager.Instance.GlobalFixedUpdate -= this.UpdateMovementPerFrame;
         }
 
 
