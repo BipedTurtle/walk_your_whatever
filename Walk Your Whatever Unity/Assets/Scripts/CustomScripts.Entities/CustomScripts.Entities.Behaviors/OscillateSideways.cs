@@ -17,7 +17,7 @@ namespace CustomScripts.Entities.Behaviors
         private int stepsPerHalfOscillation = 30;
         public OscillateSideways(Vector3 moveDirThisFrame)
         {
-            this.distanceUntilTurn = this.StepSpeed * Time.fixedDeltaTime * (this.stepsPerHalfOscillation /2);
+            this.distanceUntilTurn = this.StepSpeed * Time.fixedDeltaTime * (this.stepsPerHalfOscillation /2) * this.timeFix;
 
             var oscillationDirection = (moveDirThisFrame.x < 0) ? OscillationDirection.Left : OscillationDirection.Right;
             this.SetStartingDirection(oscillationDirection);
@@ -60,7 +60,8 @@ namespace CustomScripts.Entities.Behaviors
         private float direction = 1f;
         private float distanceUntilTurn;
         private float curbFix => 1f - Movement.Curb;
-        private float regularOscillationAmount => (this.StepSpeed / curbFix) * Time.fixedDeltaTime * this.stepsPerHalfOscillation;
+        private float timeFix = .02f / .013333f;
+        private float regularOscillationAmount => (this.StepSpeed / curbFix) * Time.fixedDeltaTime * this.stepsPerHalfOscillation * this.timeFix;
         private void ChangeDirIfNecessary(float distanceTraveled)
         {
             this.distanceUntilTurn -= distanceTraveled;

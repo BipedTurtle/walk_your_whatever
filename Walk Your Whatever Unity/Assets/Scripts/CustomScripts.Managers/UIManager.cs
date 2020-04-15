@@ -31,7 +31,7 @@ namespace CustomScripts.Managers
         [SerializeField] private Gauge speedGaugeUI;
         [SerializeField] private Gauge curbGaugeUI;
         private float defaultSpeed;
-        private Func<float, float> ratioFunction = (x) => (27.77777f) * x - 1.1666662f;
+        private Func<float, float> ratioFunction = (x) => (41.3333333f) * x - 1.1533333f;
         private void UpdateSpeedGauge()
         {
             var movement = Movement.GetDefaultForwardMovement(Movement.Curb);
