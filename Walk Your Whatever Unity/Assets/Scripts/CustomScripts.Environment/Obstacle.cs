@@ -33,8 +33,8 @@ namespace CustomScripts.Environment
 
             bool OutOfViewportBounds(Vector2 viewport)
             {
-                Vector2 lowerBound = new Vector2(-1, -1);
-                Vector2 upperBound = new Vector2(1, 1.5f);
+                Vector2 lowerBound = new Vector2(-1, -0.2f);
+                Vector2 upperBound = new Vector2(1, 1.2f);
 
                 var isOutofBounds =
                     (viewport.x < lowerBound.x || viewport.x > upperBound.x) ||
